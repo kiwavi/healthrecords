@@ -25,25 +25,37 @@ export default function AddPatients() {
 
     function fetchCounties() {
         setLoading(true);
-        axios.get('api/counties').then(
+        axios.get('api/all_counties').then(
             res => {
                 console.log(res.data);
                 setCounties(res.data);
                 setLoading(false);
             }
+        ).catch(
+            error => {
+                if (error['message'] === 'Network Error') {
+                    NotificationManager.error('Internal System Error','Server Error', 2000);
+                }
+            }
         );
-    }
+}
 
 
     function fetchFacilities() {
         setLoading(true);
-        axios.get('api/facilities').then(
+        axios.get('api/facilities_read').then(
             res => {
                 console.log(res.data);
                 setFetchedFacilities(res.data);
                 setLoading(false);
             }
-        );
+        ).catch(
+            error => {
+                if (error['message'] === 'Network Error') {
+                    NotificationManager.error('Internal System Error','Server Error', 2000);
+                }
+            }
+        );;
     }
 
     
@@ -125,7 +137,9 @@ export default function AddPatients() {
 		}
 	    ).catch(
 		error => {
-		    console.log(error);
+                    if (error['message'] === 'Network Error') {
+                        NotificationManager.error('Internal System Error','Server Error', 2000);
+                    };
 		    setLoading(false);
                     setSubmitted(false);
 		}

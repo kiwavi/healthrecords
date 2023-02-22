@@ -21,6 +21,17 @@ class PatientSerializer(serializers.ModelSerializer):
 
 
 class FacilitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Facilities
+        fields = (
+            'id',
+            'facility_name',
+            'county',
+            'street'
+        )
+
+
+class FacilitySerializerReadOnly(serializers.ModelSerializer):
     facility_name = serializers.StringRelatedField()
     class Meta:
         model = Facilities
@@ -33,6 +44,14 @@ class FacilitySerializer(serializers.ModelSerializer):
 
 
 class CountySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Counties
+        fields = (
+            'id',
+            'county_name'
+        )
+
+class CountyReadSerializer(serializers.ModelSerializer):
     county_name = serializers.StringRelatedField()
     class Meta:
         model = Counties

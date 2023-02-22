@@ -36,7 +36,7 @@ class Patient(models.Model):
         return self.first_name
 
 class Counties(models.Model):
-    county_name = models.CharField(max_length=30)
+    county_name = models.CharField(max_length=30, unique=True)
 
     def __str__(self):
         return self.county_name
