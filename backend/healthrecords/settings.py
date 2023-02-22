@@ -78,25 +78,15 @@ WSGI_APPLICATION = 'healthrecords.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
 
 DATABASES={
     'default':{
         'ENGINE':'django.db.backends.mysql',
-        'NAME':'healthrecords',
+        'NAME':'health',
         'USER':'ngrok',
         'PASSWORD':'soulties12',
         'HOST':'127.0.0.1',
         'PORT':'3306',
-        'OPTIONS':{
-            'init_command':"SET sql_mode='STRICT_TRANS_TABLES'"
-        }
     }
 }
 

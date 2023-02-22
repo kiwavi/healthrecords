@@ -13,3 +13,5 @@ postgres_data
 *#*
 emails.text
 setup.sh
+*00*
+**/__pycache__
