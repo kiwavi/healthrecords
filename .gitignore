@@ -1,0 +1,15 @@
+*~
+.gitignore~
+postgres_data
+.log
+**/venv
+**/node_modules
+**/db.sqlite3
+**/media
+*.pyc
+**/.env.local
+**/.env.prod
+**/certbot
+*#*
+emails.text
+setup.sh
