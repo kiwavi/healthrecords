@@ -2,6 +2,7 @@
 ## This projects record electronic health records into a database
 ### Setup     
 #### Run the backend    
+#### Create a mysql database called 'health' and user 'ngrok' with password 'soulties12'.    
 - `cd backend`     
 - `python -m venv venv`   
 - `source venv/bin/activate`    
