@@ -10,6 +10,10 @@
 - `python manage.py makemigrations`    `
 - `python manage.py migrate`    
 - `python manage.py runserver`    
+
+#### The endpoint for adding counties is http://127.0.0.1:8000/api/counties/   
+#### The endpoint for adding facilities is http://127.0.0.1:8000/api/facilities/    
+#### Once you're done, head to the http://localhost:3000/add-patients and add patient entries    
 #### Run the frontend on a separate terminal    
 - `cd frontend`    
 - `npm install`    
