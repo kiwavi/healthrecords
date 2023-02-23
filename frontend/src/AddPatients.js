@@ -27,7 +27,6 @@ export default function AddPatients() {
         setLoading(true);
         axios.get('api/all_counties').then(
             res => {
-                console.log(res.data);
                 setCounties(res.data);
                 setLoading(false);
             }
@@ -45,7 +44,6 @@ export default function AddPatients() {
         setLoading(true);
         axios.get('api/facilities_read').then(
             res => {
-                console.log(res.data);
                 setFetchedFacilities(res.data);
                 setLoading(false);
             }
@@ -61,7 +59,6 @@ export default function AddPatients() {
     
     function submitPatientData(e) {
         e.preventDefault();
-        console.log(hispanic);
         if (county === '') {
             NotificationManager.error('Select a county','Select County',2000);
             return;
@@ -95,7 +92,6 @@ export default function AddPatients() {
 	    var county_id = 0;
 	    while (start < counties.length) {
 	        if (counties[start]['county_name'] === county) {
-		    console.log('Yes');
 		    county_id = counties[start]['id'];
 	        }
 	        start = start + 1;
@@ -105,7 +101,6 @@ export default function AddPatients() {
 	    var facility_id = 0;
 	    while (start2 < fetched_facilities.length) {
 	        if (fetched_facilities[start2]['facility_name'] === facility) {
-		    console.log('Yes Again');
 		    facility_id = fetched_facilities[start2]['id'];
 	        }
 	        start2 = start2 + 1;
@@ -124,16 +119,22 @@ export default function AddPatients() {
 	        date_of_birth: formatted_birth_date
 	    }).then(
 		res => {
-		    console.log(res.data);
 		    setLoading(false);
 		    setSubmitted(false);
 		    NotificationManager.success('Record added successfully', 'Success', 2000);
+                    e.target.reset();
+                    setFirstName('');
+                    setSecondName('');
+                    setLastName('');
+                    setStreet('');
                     setFacility('');
                     setRace('');
                     setCounty('');
                     setSex('');
                     setFacility('');
                     setHispanic('');
+                    setDateBirth(new Date());
+                    e.target.reset();
 		}
 	    ).catch(
 		error => {
@@ -167,22 +168,22 @@ export default function AddPatients() {
                 <form class="flex flex-col items-center justify-center mt-6 mb-12" onSubmit={submitPatientData}>
                   <div class="mb-6">
                     <label for="firstname" class="block mb-2 text-sm font-medium text-blue-900 dark:text-blue"> First Name <span className='text-red-500'>*</span></label>
-                    <input type="text" id="firstname" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onChange={(e) => setFirstName(e.target.value)} maxLength="150" required/>
+                    <input type="text" id="firstname" value={first_name} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onChange={(e) => setFirstName(e.target.value)} maxLength="150" required/>
                   </div>
                   
                   <div class="mb-6">
                     <label for="" class="block mb-2 text-sm font-medium text-blue-900 dark:text-blue"> Middle Name <span className='text-red-500'>*</span> </label>
-                    <input type="middlename" id="middlename" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onChange={(e) => setSecondName(e.target.value)} maxLength="150" required/>
+                    <input type="middlename" id="middlename" value={second_name}  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onChange={(e) => setSecondName(e.target.value)} maxLength="150" required/>
                   </div>
                   
                   <div class="mb-6">
-                    <label for="lastname" class="block mb-2 text-sm font-medium text-blue-900 dark:text-blue"> Last Name <span className='text-red-500'>*</span> </label>
+                    <label for="lastname" value={last_name}  class="block mb-2 text-sm font-medium text-blue-900 dark:text-blue"> Last Name <span className='text-red-500'>*</span> </label>
                     <input type="lastname" id="lastname" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onChange={(e) => setLastName(e.target.value)} maxLength="150" required/>
                   </div>
                   
                   
                   <div class="mb-6">
-                    <label for="county" class="block mb-2 text-sm font-medium text-blue-900 dark:text-blue"> County <span className='text-red-500'>*</span> </label>
+                    <label for="county" value={county}  class="block mb-2 text-sm font-medium text-blue-900 dark:text-blue"> County <span className='text-red-500'>*</span> </label>
                     <select class="w-80 text-black" onChange={(e) => setCounty(e.target.value)} required>
                       <option key='0' value="Select"> Select </option>
                       {counties.map((fetched) => <option key={fetched.id} value={fetched.county_name}> {fetched.county_name}</option>)}
@@ -191,13 +192,13 @@ export default function AddPatients() {
                   
                   
                   <div class="mb-6">
-                    <label for="street" class="block mb-2 text-sm font-medium text-blue-900 dark:text-blue"> Street <span className='text-red-500'>*</span> </label>
+                    <label for="street" value={street}  class="block mb-2 text-sm font-medium text-blue-900 dark:text-blue"> Street <span className='text-red-500'>*</span> </label>
                     <input type="text" id="street" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onChange={(e) => setStreet(e.target.value)} maxLength="150" required/>
                   </div>
                   
                   
                   <div class="mb-6">
-                    <label for="race" class="block mb-2 text-sm font-medium text-blue-900 dark:text-blue"> Race <span className='text-red-500'>*</span> </label>
+                    <label for="race" value={race}  class="block mb-2 text-sm font-medium text-blue-900 dark:text-blue"> Race <span className='text-red-500'>*</span> </label>
                     <select class="w-80 text-black" onChange={(e) => setRace(e.target.value)} required>
                       <option key='0' value="Select"> Select </option>
                       <option key='1' value="White"> White </option>
@@ -208,14 +209,14 @@ export default function AddPatients() {
                   
                   
                   <div class="mb-6">
-                    <label for="dob" class="block mb-2 text-sm font-medium text-blue-900 dark:text-blue"> Date of birth <span className='text-red-500'>*</span> </label>
+                    <label for="dob" value={date_birth}  class="block mb-2 text-sm font-medium text-blue-900 dark:text-blue"> Date of birth <span className='text-red-500'>*</span> </label>
                     <DateTimePicker onChange={setDateBirth} value={date_birth} className="w-80 text-black" required/>
                   </div>
                   
                   
                   <div class="mb-6">
                     <label for="sex" class="block mb-2 text-sm font-medium text-blue-900 dark:text-blue"> Sex <span className='text-red-500'>*</span> </label>
-                    <select class="w-80 text-black" onChange={(e) => setSex(e.target.value)} required>
+                    <select class="w-80 text-black" value={sex}  onChange={(e) => setSex(e.target.value)} required>
                       <option key='0' value="Select"> Select </option>
                       <option key='1' value="Male"> Male </option>
                       <option key='2' value="Female"> Female </option>
@@ -224,7 +225,7 @@ export default function AddPatients() {
                   
                   
                   <div class="mb-6">
-                    <label for="hispanic" class="block mb-2 text-sm font-medium text-blue-900 dark:text-blue"> Are you Hispanic <span className='text-red-500'>*</span> </label>
+                    <label for="hispanic"  value={hispanic}  class="block mb-2 text-sm font-medium text-blue-900 dark:text-blue"> Are you Hispanic <span className='text-red-500'>*</span> </label>
                     <select class="w-80 text-black" onChange={(e) => setHispanic(e.target.value)} required>
                       <option key='0' value="Select"> Select </option>
                       <option key='1' value="Yes"> Yes </option>
@@ -235,7 +236,7 @@ export default function AddPatients() {
 
                   
                   <div class="mb-6">
-                    <label for="facility" class="block mb-2 text-sm font-medium text-blue-900 dark:text-blue"> Facility <span className='text-red-500'>*</span> </label>
+                    <label for="facility" value={facility}  class="block mb-2 text-sm font-medium text-blue-900 dark:text-blue"> Facility <span className='text-red-500'>*</span> </label>
                     <select class="w-80 text-black" onChange={(e) => setFacility(e.target.value)} required>
                   <option key='0' value="Select"> Select </option>
                       {fetched_facilities.map((fetched) => <option key={fetched.id} value={fetched.facility_name}> {fetched.facility_name}</option>)}
